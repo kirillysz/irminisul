@@ -1,7 +1,7 @@
 from os import getenv
 from dotenv import load_dotenv
 
-load_dotenv(dotenv_path=".env")
+load_dotenv(dotenv_path="config.env")
 
 class Config:
     UPLOAD_DIR = "app/api/v1/uploads"

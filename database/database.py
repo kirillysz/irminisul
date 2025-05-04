@@ -1,6 +1,7 @@
 from async_appwrite.async_client import AsyncClient
 from async_appwrite.services.async_databases import Databases
 
+from utils.utils import Utils
 
 class Database:
     def __init__(self, endpoint: str, project_id: str, api_key: str, 
@@ -24,7 +25,7 @@ class Database:
             result = await self.databases.create_document(
                 database_id=self.database,
                 collection_id=self.collection,
-                document_id=str(self.return_unique_id()),
+                document_id=str(Utils.generate_id()),
                 data=data
             )
             return result

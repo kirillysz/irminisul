@@ -24,4 +24,4 @@ class Utils:
                 })
             ) as resp:
                 result = await resp.json()
-                return result.get("success", False)
+                return result
