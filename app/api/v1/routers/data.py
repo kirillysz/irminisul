@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Form, UploadFile, File, Request, HTTPException
-from fastapi.responses import JSONResponse
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 
 from json import dumps
 from typing import List
@@ -14,6 +15,7 @@ import os
 
 router = APIRouter(prefix="/data")
 cfg = Config()
+templates = Jinja2Templates(directory="templates/")
 
 
 db = Database(
@@ -87,5 +89,9 @@ async def submit_work(
         }
     )
 
-    result = await db.add_data_to_collection(data=data)
-    return JSONResponse(content={"status": "success", "result": result}, status_code=200)
+    try:
+        result = await db.add_data_to_collection(data=data)
+        return templates.TemplateResponse("index.html", {"request": request, "success": True})
+    
+    except Exception:
+        return templates.TemplateResponse("index.html", {"request": request, "error": True})
