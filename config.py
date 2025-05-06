@@ -13,3 +13,4 @@ class Config:
     DATABASE_ID = getenv("DATABASE_ID")
     COLLECTION_ID = getenv("COLLECTION_ID")
     ENDPOINT = getenv("ENDPOINT")
+    BUCKET_ID = getenv("BUCKET_ID")

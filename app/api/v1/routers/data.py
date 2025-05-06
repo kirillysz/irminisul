@@ -1,17 +1,20 @@
 from fastapi import APIRouter, Form, UploadFile, File, Request, HTTPException
 from fastapi.responses import JSONResponse
+
 from json import dumps
 from typing import List
 
 from database.database import Database
-from utils.utils import Utils
+from storage.storage import Storage
 
+from utils.utils import Utils
 from config import Config
 
 import os
 
 router = APIRouter(prefix="/data")
 cfg = Config()
+
 
 db = Database(
     endpoint=cfg.ENDPOINT,
@@ -21,6 +24,12 @@ db = Database(
     collection_id=cfg.COLLECTION_ID
 )
 
+storage = Storage(
+    bucket_id=cfg.BUCKET_ID,
+    endpoint=cfg.ENDPOINT,
+    project_id=cfg.PROJECT_ID,
+    api_key=cfg.DB_KEY
+)
 
 @router.post("/work-save")
 async def submit_work(
@@ -39,18 +48,27 @@ async def submit_work(
     file: List[UploadFile] = File(...)
 ):
     is_valid_captcha = await Utils.verify_captcha(response = g_recaptcha_response)
-
     if not is_valid_captcha:
         raise HTTPException(status_code=400, detail="reCAPTCHA verification failed")
 
-    saved_files = []
+    os.makedirs(cfg.UPLOAD_DIR, exist_ok=True)
+    file_ids = []
+    
     for uploaded_file in file:
         file_path = os.path.join(cfg.UPLOAD_DIR, uploaded_file.filename)
 
-        with open(file_path, "wb") as f:
-            f.write(await uploaded_file.read())
+        with open(file_path, "wb") as buffer:
+            content = await uploaded_file.read()
+            buffer.write(content)
 
-        saved_files.append(file_path)
+        try:
+            result = await storage.upload(file_path=file_path)
+            file_ids.append(result["$id"])
+
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
 
     data = dumps(
         {
@@ -65,7 +83,7 @@ async def submit_work(
             "keywords": keywords.split(","),
             "work_date": date,
             "username": username,
-            "files": saved_files
+            "file_ids": file_ids
         }
     )
 

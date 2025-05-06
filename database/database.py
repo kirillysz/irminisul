@@ -33,6 +33,7 @@ class Database:
         except Exception as err:
             raise Exception(err)
     
+    
     async def get_data_by_id(self, document_id: str) -> dict:
         """Получает данные по ID"""
         try:
