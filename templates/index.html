@@ -1,0 +1,171 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Ирминсуль</title>
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+        <link rel="shortcut icon" href="/icon.png" type="image/x-icon" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://irminsul.space/index.html" />
+        <meta property="og:title" content="Irminsul" />
+        <meta property="og:site_name" content="Архив для студентов" />
+        <meta property="og:description" content="Знания на расстоянии клика. Присоединяйся к нам!" />
+        <meta property="og:image" content="https://irminsul.space/icon.png" />
+        <meta name="apple-mobile-web-app-title" content="Irminsul" />
+        <meta name="application-name" content="Irminsul" />
+        <meta name="theme-color" content="#94D72F" data-react-helmet="true" />
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    </head>
+    <body>
+        <div class="main max-w-2xl mx-auto space-y-8">
+            <div class="block">
+                <div class="header flex items-center gap-4">
+                    <img class="bleb h-20 rounded-2xl" src="/logo 2.0.svg" alt="bleba" />
+                    <h1 class="font-bold text-gray-800">Ирминсуль</h1>
+                </div>
+            </div>
+
+            <form id="work-form" method="POST" action="https://appwrite.irminsul.space:9443/data/work-save" enctype="multipart/form-data" class="block form bg-white p-8 rounded-3xl shadow-lg space-y-6">
+                <div id="alert-container" class="hidden p-4 mb-4 text-sm rounded-lg shadow-md" role="alert"></div>
+                
+                <div class="space-y-2">
+                    <input type="text" name="title" aria-label="Название работы" class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:border-green-500" placeholder="Название работы" required />
+                </div>
+                <div class="space-y-2">
+                    <textarea name="description" aria-label="Описание работы" class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:border-green-500" placeholder="Описание работы" rows="4" required></textarea>
+                </div>
+                <div class="space-y-2">
+                    <input type="text" name="institution" aria-label="ВУЗ/Колледж" class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:border-green-500" placeholder="ВУЗ/Колледж" required />
+                </div>
+                <div class="space-y-2">
+                    <input type="text" name="specialty" aria-label="Специальность" class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:border-green-500" placeholder="Специальность" required />
+                    <span class="block text-sm text-gray-500">В формате: **.**.** Название</span>
+                </div>
+                <div class="space-y-2">
+                    <input type="number" name="course" aria-label="Курс" class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:border-green-500" placeholder="Курс" min="1" required />
+                </div>
+                <div class="space-y-2">
+                    <select name="work_type" aria-label="Тип работы" class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:border-green-500" required>
+                        <option value="">Тип работы</option>
+                        <option>Конспект</option>
+                        <option>Домашняя работа</option>
+                        <option>Практическая работа</option>
+                        <option>Лабораторная работа</option>
+                        <option>Курсовая работа</option>
+                        <option>Дипломная работа</option>
+                        <option>Прочее</option>
+                    </select>
+                </div>
+                <div class="space-y-2">
+                    <input type="text" name="subject" aria-label="Предмет" class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:border-green-500" placeholder="Предмет" required />
+                    <span class="block text-sm text-gray-500">Полное название без сокращений</span>
+                </div>
+                <div class="space-y-2">
+                    <input type="text" name="keywords" aria-label="Ключевые слова" class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:border-green-500" placeholder="Ключевые слова" />
+                    <span class="block text-sm text-gray-500">По каким словам вы бы искали эту работу</span>
+                </div>
+                <div class="space-y-2">
+                    <input type="date" name="date" aria-label="Дата работы" class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:border-green-500" />
+                    <span class="block text-sm text-gray-500">За какое число была эта работа</span>
+                </div>
+                <div class="space-y-2">
+                    <div class="flex items-center justify-center w-full">
+                        <label class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+                            <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                <svg class="w-8 h-8 mb-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                                </svg>
+                                <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Нажмите для загрузки</span> или перетащите файлы</p>
+                                <p class="text-xs text-gray-500">Поддерживаются любые типы файлов</p>
+                            </div>
+                            <input type="file" name="file" multiple accept="*" class="hidden" required />
+                        </label>
+                    </div>
+                </div>
+                <div class="relative">
+                    <input
+                        type="text"
+                        name="username"
+                        id="username"
+                        aria-label="Юзернейм"
+                        class="w-full p-4 pr-24 border border-gray-300 rounded-lg focus:outline-none focus:border-green-500"
+                        placeholder="Юзернейм (указать один раз)"
+                        required />
+                    <button type="button" class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-green-500 text-white px-4 py-2 rounded-full hover:bg-green-600 transition duration-200 save-btn" onclick="saveUsername()">
+                        Сохранить
+                    </button>
+                </div>
+                <div class="g-recaptcha" data-sitekey="6LfqJSIrAAAAAJTy1x_bgMiDwthutAlE1UCSIVwi"></div>
+                <input type="hidden" id="g_recaptcha_response" name="g_recaptcha_response" />
+                <button type="submit" value="Submit" class="w-full bg-green-500 text-white py-3 rounded-full hover:bg-green-600 transition duration-200 submit-btn">Загрузить</button>
+            </form>
+
+            <div class="block end_text bg-white p-8 rounded-3xl shadow-lg">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Наши сети</h2>
+                <div class="links space-y-4">
+                    <a target="_blank" href="https://vk.com/irminsul" class="flex items-center justify-center gap-2 bg-blue-500 text-white py-3 rounded-full hover:bg-blue-600 transition duration-200"
+                        >ВК сообщество <img src="\arrow_outward.svg" alt="стрелочка" class="h-6"
+                    /></a>
+                    <a target="_blank" href="https://discord.gg/WvC4WcBtkn" class="flex items-center justify-center gap-2 bg-indigo-500 text-white py-3 rounded-full hover:bg-indigo-600 transition duration-200 purple"
+                        >Discord сервер <img src="\arrow_outward.svg" alt="стрелочка" class="h-6"
+                    /></a>
+                </div>
+            </div>
+        </div>
+    
+        <script>
+            // Сохранение юзернейма в куки
+            function saveUsername() {
+                const username = document.getElementById("username").value;
+                if (username) {
+                    document.cookie = `username=${encodeURIComponent(username)}; max-age=${30 * 24 * 60 * 60}`;
+                }
+            }
+
+            // Восстановление юзернейма из куки
+            window.onload = function () {
+                const cookies = document.cookie.split(";");
+                for (let cookie of cookies) {
+                    const [name, value] = cookie.trim().split("=");
+                    if (name === "username") {
+                        document.getElementById("username").value = decodeURIComponent(value);
+                        break;
+                    }
+                }
+            };
+
+            // Обработка отправки формы
+            document.getElementById("work-form").onsubmit = function (event) {
+                var recaptchaResponse = grecaptcha.getResponse();
+                if (!recaptchaResponse) {
+                    alert("Пожалуйста, пройдите проверку reCAPTCHA.");
+                    event.preventDefault();
+                    return false;
+                }
+                document.getElementById("g_recaptcha_response").value = recaptchaResponse;
+            };
+        </script>
+
+        <script>
+            const params = new URLSearchParams(window.location.search);
+            const alert = document.getElementById("alert-container");
+        
+            if (params.get("success") === "1") {
+              alert.textContent = "✅ Загрузка прошла успешно!";
+              alert.classList.remove("hidden");
+              alert.classList.add("text-green-700", "bg-green-100");
+            } else if (params.get("error") === "1") {
+              alert.textContent = "❌ Произошла ошибка при загрузке. Пожалуйста, попробуйте снова.";
+              alert.classList.remove("hidden");
+              alert.classList.add("text-red-700", "bg-red-100");
+            }
+        
+            if (!alert.classList.contains("hidden")) {
+              setTimeout(() => {
+                alert.classList.add("hidden");
+              }, 5000);
+            }
+          </script>
+        
+    </body>
+</html>
