@@ -93,9 +93,7 @@ async def submit_work(
 
     try:
         await db.add_data_to_collection(data=data)
-
-        headers = {"X-Success": "1"}
-        return RedirectResponse(url="https://irminsul.space/", status_code=HTTP_303_SEE_OTHER, headers=headers)
+        return RedirectResponse(url="https://irminsul.space/?success=1", status_code=HTTP_303_SEE_OTHER)
+    
     except Exception:
-        headers = {"X-Error": "1"}
-        return RedirectResponse(url="https://irminsul.space/", status_code=HTTP_303_SEE_OTHER, headers=headers)
+        return RedirectResponse(url="https://irminsul.space/?error=1", status_code=HTTP_303_SEE_OTHER)
