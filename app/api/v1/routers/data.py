@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Form, UploadFile, File, Request, HTTPException
-from fastapi.responses import HTMLResponse
-from fastapi.templating import Jinja2Templates
+from fastapi.responses import RedirectResponse
+
+from starlette.status import HTTP_303_SEE_OTHER
 
 from json import dumps
 from typing import List
@@ -15,8 +16,6 @@ import os
 
 router = APIRouter(prefix="/data")
 cfg = Config()
-templates = Jinja2Templates(directory="templates/")
-
 
 db = Database(
     endpoint=cfg.ENDPOINT,
@@ -56,6 +55,9 @@ async def submit_work(
     os.makedirs(cfg.UPLOAD_DIR, exist_ok=True)
     file_ids = []
     
+    if len(file) > 10:
+        raise HTTPException(status_code=400, detail="Превышен максимальный лимит для файлов (10)")
+
     for uploaded_file in file:
         file_path = os.path.join(cfg.UPLOAD_DIR, uploaded_file.filename)
 
@@ -90,8 +92,7 @@ async def submit_work(
     )
 
     try:
-        result = await db.add_data_to_collection(data=data)
-        return templates.TemplateResponse("index.html", {"request": request, "success": True})
-    
+        await db.add_data_to_collection(data=data)
+        return RedirectResponse(url="/?success=1", status_code=HTTP_303_SEE_OTHER)
     except Exception:
-        return templates.TemplateResponse("index.html", {"request": request, "error": True})
+        return RedirectResponse(url="/?error=1", status_code=HTTP_303_SEE_OTHER)
